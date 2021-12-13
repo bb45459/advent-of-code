@@ -36,8 +36,8 @@ function foldHorizontal(matrix, x) {
     // return
     const left = matrix.map(row => row.slice(0, x));
     const right = matrix.map(row => row.slice(x + 1, x + left[0].length + 1));
-    console.log(left)
-    console.log(right)
+    // console.log(left)
+    // console.log(right)
     return left.map((row, rowi) => {
         return row.map((col, coli) => col + right[rowi][row.length - coli - 1])
     })
@@ -51,8 +51,8 @@ function foldVertical(matrix, y) {
     // return
     const top = matrix.slice(0, y);
     const bottom = matrix.slice(y + 1, y + top.length + 1);
-    console.log(top)
-    console.log(bottom)
+    // console.log(top)
+    // console.log(bottom)
     return top.map((row, rowi) => {
         return row.map((col, coli) => col + bottom[top.length - rowi - 1][coli])
     })
@@ -64,18 +64,13 @@ function constructMatrix(points) {
     let matrix = Array(maxY + 1).fill(Array(maxX + 1).fill(0))
     matrix = matrix.map(el => el.map(el => el))
     points.forEach(point => {
-        // console.log(point)
         matrix[point[1]][point[0]] = 1
     })
-    // console.log(matrix)
     return matrix
 }
 
 const matrix = constructMatrix(coords)
-// const folded = foldVertical(matrix, 7);
-// const folded = foldHorizontal(matrix, 655);
 const folded = foldHorizontal(matrix, 655);
-// console.log(folded)
 console.log('part1: ', folded.reduce((acc, curr) => {
     return acc + curr.reduce((acc, curr) => curr > 0 ? acc + 1 : acc, 0)
 }, 0))
@@ -90,6 +85,5 @@ commands.forEach((command) => {
         foldHorizontal(matrix2, Number(command.slice(command.indexOf('=') + 1)))
     console.log(matrix2)
 })
-// console.log(matrix2)
 const matrix3 = matrix2.map(row => row.map(col => col > 0 ? '#' : '.').join(' ')).join('\n')
 console.log(matrix3)
