@@ -83,7 +83,6 @@ commands.forEach((command) => {
     matrix2 = command.includes('y=') ?
         foldVertical(matrix2, Number(command.slice(command.indexOf('=') + 1))) :
         foldHorizontal(matrix2, Number(command.slice(command.indexOf('=') + 1)))
-    console.log(matrix2)
 })
 const matrix3 = matrix2.map(row => row.map(col => col > 0 ? '#' : '.').join(' ')).join('\n')
 console.log(matrix3)
