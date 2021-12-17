@@ -110,7 +110,6 @@ class StateMachine {
                 this.state = 'lengthType';
                 break;
             case 'lengthType':
-                this.commands.push('(');
                 if (this.data[this.position] === '0') {
                     // console.log('absolute length')
                     // next 15 bits are total length of subpackets
