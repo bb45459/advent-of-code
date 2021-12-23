@@ -99,15 +99,6 @@ const mappedCommands = commands.map(el => {
     return [el[0], splitRanges];
 })
 
-// const mappedOffsetCommands = commands.map(el => {
-//     const ranges = el[1];
-//     // console.log(el)
-//     const splitRanges = ranges.split(',').map(range => {
-//         return range.substring(2).split('..').map(el => parseInt(el) + 125000)
-//     })
-//     return [el[0], splitRanges];
-// })
-
 function calc() {
     const filteredCommands = mappedCommands.filter(command => {
         return command[1].every(pair => {
@@ -149,13 +140,11 @@ function calc2() {
     const maxz = mappedCommands.reduce((acc, curr) => Math.max(acc, curr[1][2][1]), 0);
     console.log({ minx, maxx, miny, maxy, minz, maxz })
 
-    // for (let zIter = -1250; zIter < 1250; zIter++) {
     for (let zIter = minz; zIter < maxz; zIter++) {
         const zWindow = [(zIter) * 100, ((zIter + 1) * 100) - 1];
         console.log('z', zIter)
         const validZCommands = mappedCommands.filter(command => {
             const z = command[1][2];
-            // const zValid = (z[0] >= zWindow[0] && z[0] <= zWindow[1]) || (z[1] >= zWindow[0] && z[1] <= zWindow[1])
             const zValid = (z[0] >= zWindow[0] && z[0] <= zWindow[1]) // start point in window
                 || (z[1] >= zWindow[0] && z[1] <= zWindow[1]) // end point in window
                 || (z[0] <= zWindow[0] && z[1] >= zWindow[1]) // range completely spans the window
@@ -165,7 +154,6 @@ function calc2() {
         if (validZCommands.length > 0) {
             const minYIter = validZCommands.reduce((acc, curr) => curr[1][1][0] < acc ? curr[1][1][0] : acc, -1250)
             const maxYIter = validZCommands.reduce((acc, curr) => curr[1][1][1] > acc ? curr[1][1][1] : acc, 1250)
-            // for (let yIter = -1250; yIter < 1250; yIter++) {
             for (let yIter = minYIter; yIter < maxYIter; yIter++) {
                 console.log(`yIter`, yIter, 'z', zIter)
                 const yWindow = [(yIter) * 100, ((yIter + 1) * 100) - 1];
@@ -195,14 +183,10 @@ function calc2() {
                         })
 
                         if (validXCommands.length) {
-                            // console.log('found commands!', xIter, yIter, zIter, xWindow, yWindow, zWindow, validXCommands.length)
                             const core = Array(100).fill(Array(100).fill(Array(100).fill(0))).map(el => el.map(e => e.map(f => f)))
                             let ans = 0;
                             for (let c in validXCommands) {
-                                // console.log(c)
-                                // console.log('x', xWindow, 'y', yWindow, 'z', zWindow)
                                 const command = validXCommands[c]
-                                // console.log(`command`, command)
                                 const x1 = Math.max(command[1][0][0], xWindow[0]) - xWindow[0];
                                 const x2 = Math.min(command[1][0][1], xWindow[1]) - xWindow[0];
                                 const y1 = Math.max(command[1][1][0], yWindow[0]) - yWindow[0];
@@ -216,10 +200,6 @@ function calc2() {
                                     // console.log('seen before')
                                     // take this answer and multiply by the range remaining
                                     ans = solutionSet[`${x1}${x2}${y1}${y2}${z1}${z2}`]
-                                    // const endStep = Math.floor(command[1][0][1] / 100)
-                                    // const multiplier = (remainingRange - xIter)
-                                    // ons += multiplier * ans
-                                    // xIter = endStep - 1;
                                 } else {
                                     for (let i = x1; i <= x2; i++) {
                                         for (let j = y1; j <= y2; j++) {
